@@ -53,6 +53,9 @@ def	psExport(model, outputDir, modelName, log):
 	solveTime = end - start
 	log.info('\tExport in %s sec' % (end - start))
 
+'''
+#	To be deprecated and replaced with setLog as the current function sets logger >1 resulting in duplicated records written in some cases.
+
 def setLogging():
 	logger = logging.getLogger(__name__)
 	logger.setLevel(logging.DEBUG)
@@ -73,12 +76,14 @@ def setLogging():
 	logger.addHandler(ch)
 	
 	return logger
-	
-def setLog():
+'''
+
+def setLog(logName, outputDir):
+	logfile = os.path.join(outputDir, logName)
 	logger=logging.getLogger(__name__)
 	if not len(logger.handlers):
 		logger.setLevel(logging.DEBUG)
-		handler=logging.FileHandler('psPython.log')
+		handler=logging.FileHandler(logfile)
 		now = datetime.now()
 		formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s \t %(message)s \t %(lineno)d')
 		handler.setFormatter(formatter)

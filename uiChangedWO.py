@@ -19,7 +19,9 @@ def	psGetWoOp(model, threshold):
 			for i in items:
 				if (i.actualQuantity-i.quantityRemaining) > threshold and wo.onHold == 0:
 					log.info('WO:\'%s\'\tOP:\'%s\'\tCONSUMEDITEM:\'%s\'\tQTYREM: %s\t ACTQTY: %s\t DIFF: %s' % (wo.code, o.code, i.item.code,round(i.quantityRemaining,4),round(i.actualQuantity,4), (round(i.actualQuantity, 4)- round(i.quantityRemaining, 4))) )
-			
+			'''
+				The following pegs the upstream operation instances (make jobs) so it can be determined which make wo has leftover 
+			'''
 			'''
 			for oo in opIn:
 				print "\n OP_INSTANCE:", oo.code, oo.span
@@ -35,12 +37,12 @@ def logIt():
 
 	
 if __name__ == "__main__":	
-	#log = setLogging()
-	log = setLog()
+
 	variables = setVariables('psPythonConfig.xml')
 	for key,val in variables.items():
 		exec(key + '=val')	
 	
+	log = setLog(logname, psOutputDirectory)
 	myModel = getModel()
 	psGetWoOp(myModel, float(threshold))
 

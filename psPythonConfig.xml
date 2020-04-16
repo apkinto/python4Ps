@@ -2,8 +2,9 @@
 <psConfiguration>
   <variableList>
     <psInputDirectory>C:\Users\alkim.ORADEV\Documents\Python\Lizhan\UnitTestData\xmlInput</psInputDirectory>
-    <psOutputDirectory>C:\Users\alkim.ORADEV\Documents\Python\ps</psOutputDirectory>
+    <psOutputDirectory>C:\Users\alkim.ORADEV\Documents\Python\</psOutputDirectory>
 	<threshold>0.001</threshold>
+	<logname>myLog.txt</logname>
     <!--<psXml>Simple.xml</psXml>
     <resource>R2</resource>-->
 	<psXml>Vision.xml</psXml>
