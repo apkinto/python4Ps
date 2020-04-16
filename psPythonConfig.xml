@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psConfiguration>
   <variableList>
-    <psInputDirectory>C:\Users\alkim.ORADEV\Documents\Python\Lizhan\UnitTestData\xmlInput</psInputDirectory>
-    <psOutputDirectory>C:\Users\alkim.ORADEV\Documents\Python\</psOutputDirectory>
+    <psInputDirectory></psInputDirectory>
+    <psOutputDirectory></psOutputDirectory>
 	<threshold>0.001</threshold>
 	<logname>myLog.txt</logname>
-    <!--<psXml>Simple.xml</psXml>
-    <resource>R2</resource>-->
-	<psXml>Vision.xml</psXml>
-	<resource>B33-INT 3</resource>
-	<resourceGroup>Build_Lines</resourceGroup>
-   <jc>test</jc>
   </variableList>
 </psConfiguration>
