@@ -37,7 +37,9 @@ def writeCsv ( list, filename, outDir, order = None ):
 def	psGetWoOp(model, threshold):
 	workOrders = model.getWorkOrders()				### returns dict {workOrderCode: woObject}
 	woDiff=[]
-		
+	modifiedWo = model.getAttributes()['ModifiedWO']
+	modifiedYes = modifiedWo.findValue('Yes')	
+	
 	for w, wo in workOrders.iteritems():
 		op=wo.getOperations()
 		for o in op:
@@ -45,9 +47,24 @@ def	psGetWoOp(model, threshold):
 			opIn = o.getOperationInstances()
 			for i in items:
 				if (i.actualQuantity-i.quantityRemaining) > threshold and wo.onHold == 0:				
-					woDiff.append({'WorkOrder': wo.code, 'Operation':o.code, 'item': i.item.code, 'RemainingQty':round(i.quantityRemaining,4), 'ActualQty': round(i.actualQuantity,4), 'Diff':(round(i.actualQuantity, 4)- round(i.quantityRemaining, 4))})
+					woDiff.append({ \
+					'WorkOrder': wo.code, \
+					'WoOriginalProducedQty': wo.quantity, \
+					'WOProducedItem': wo.item.code, \
+					'Operation':o.code, \
+					'ConsumedItem': i.item.code, \
+					'RemainingQty':round(i.quantityRemaining,4), \
+					'ActualQty': round(i.actualQuantity,4), \
+					'Diff':(round(i.actualQuantity, 4)- round(i.quantityRemaining, 4)), \
+					'%Percent': (round(i.actualQuantity, 4)- round(i.quantityRemaining, 4))*100/round(i.actualQuantity,4), \
+					'WoAdjustedProducedQty': round((wo.quantity*(1+(round(i.actualQuantity, 4)- round(i.quantityRemaining, 4))/ \
+													round(i.actualQuantity,4))), 4)})
+					
+					for oo in opIn:
+						oo.changeAttributeValue(modifiedYes)				
 
-	writeCsv (woDiff, 'woDiff', psOutputDirectory, order=[5, 4, 2, 1, 0, 3])  #orders re-arranges the order of the fields i.e WorkOrder is the 5th field but want it to be the first
+	if woDiff:
+		writeCsv (woDiff, 'woDiff', psOutputDirectory, order=[8, 9, 0, 3, 6, 7, 5, 1, 4, 2])  #orders re-arranges the order of the fields i.e WorkOrder is the 5th field but want it to be the first
 	
 	'''
 				The following pegs the upstream operation instances (make jobs) so it can be determined which make wo has leftover 
